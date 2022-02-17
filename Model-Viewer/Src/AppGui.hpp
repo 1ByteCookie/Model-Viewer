@@ -12,4 +12,6 @@ namespace AppGui
 	void RenderUI();
 
 	void Viewport();
+	void Properties();
+	void Camera();
 }

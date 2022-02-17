@@ -32,11 +32,15 @@ namespace AppGui
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
+
+		ImGui::DockSpaceOverViewport();
 	}
 	
 	void RenderUI()
 	{
 		Viewport();
+		Properties();
+		Camera();
 
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -45,6 +49,18 @@ namespace AppGui
 	void Viewport()
 	{
 		ImGui::Begin("Viewport");
+		ImGui::End();
+	}
+
+	void Properties()
+	{
+		ImGui::Begin("Properties");
+		ImGui::End();
+	}
+	
+	void Camera()
+	{
+		ImGui::Begin("Camera");
 		ImGui::End();
 	}
 }
