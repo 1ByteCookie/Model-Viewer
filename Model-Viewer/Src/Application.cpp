@@ -1,5 +1,11 @@
 #include "Application.hpp"
 #include <iostream>
+#include "Renderer.hpp"
+#include "AppGui.hpp"
+
+#include <imgui/imgui.h>
+#include <imgui/imgui_impl_glfw.h>
+#include <imgui/imgui_impl_opengl3.h>
 
 Application Application::Instance;
 
@@ -8,10 +14,13 @@ int Application::OnStart()
 	glClearColor(0.4f, 0.0f, 1.0f, 1.0f);
 	while (!glfwWindowShouldClose(m_Window))
 	{
-		glClear(GL_COLOR_BUFFER_BIT);
+		Renderer::Instance.Clear(GL_COLOR_BUFFER_BIT);
 		glfwPollEvents();
-		
-		glfwSwapBuffers(m_Window);
+
+		AppGui::NewFrame();
+		AppGui::RenderUI();
+
+		Renderer::Instance.EndFrame(m_Window);
 	}
 
 	return 0;
@@ -29,7 +38,7 @@ Application::Application()
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	m_Window = glfwCreateWindow(m_Width, m_Height, "Scene", nullptr, nullptr);
+	m_Window = glfwCreateWindow(m_Width, m_Height, "Model Viewer", nullptr, nullptr);
 	if (!m_Window)
 	{
 		std::cout << "Error::\t Window" << std::endl;
@@ -46,10 +55,16 @@ Application::Application()
 	glfwSetWindowSizeCallback(m_Window, Application::WindowResize);
 	std::cout << glGetString(GL_VERSION) << std::endl
 		<< glGetString(GL_RENDERER) << std::endl;
+
+	AppGui::Initialize(m_Window);
 }
 
 Application::~Application()
 {
+	AppGui::CleanUp();
+
+	glfwDestroyWindow(m_Window);
+	glfwTerminate();
 }
 
 void Application::WindowResize(GLFWwindow* Window, int Width, int Height)

@@ -100,13 +100,23 @@ XCOPY $(SolutionDir)Dependencies\ASSIMP\lib\assimp-vc143-mt.dll $(OutDir) /y</Co
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Src\AppGui.cpp" />
     <ClCompile Include="Src\Application.cpp" />
     <ClCompile Include="Src\Externals\glad\glad.c" />
     <ClCompile Include="Src\Externals\glm\detail\glm.cpp" />
+    <ClCompile Include="Src\Externals\imgui\imgui.cpp" />
+    <ClCompile Include="Src\Externals\imgui\imgui_demo.cpp" />
+    <ClCompile Include="Src\Externals\imgui\imgui_draw.cpp" />
+    <ClCompile Include="Src\Externals\imgui\imgui_impl_glfw.cpp" />
+    <ClCompile Include="Src\Externals\imgui\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="Src\Externals\imgui\imgui_tables.cpp" />
+    <ClCompile Include="Src\Externals\imgui\imgui_widgets.cpp" />
     <ClCompile Include="Src\Externals\stb_image\stb_image.cpp" />
     <ClCompile Include="Src\main.cxx" />
+    <ClCompile Include="Src\Renderer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Src\AppGui.hpp" />
     <ClInclude Include="Src\Application.hpp" />
     <ClInclude Include="Src\Externals\glm\common.hpp" />
     <ClInclude Include="Src\Externals\glm\detail\compute_common.hpp" />
@@ -394,7 +404,16 @@ XCOPY $(SolutionDir)Dependencies\ASSIMP\lib\assimp-vc143-mt.dll $(OutDir) /y</Co
     <ClInclude Include="Src\Externals\glm\vec3.hpp" />
     <ClInclude Include="Src\Externals\glm\vec4.hpp" />
     <ClInclude Include="Src\Externals\glm\vector_relational.hpp" />
+    <ClInclude Include="Src\Externals\imgui\imconfig.h" />
+    <ClInclude Include="Src\Externals\imgui\imgui.h" />
+    <ClInclude Include="Src\Externals\imgui\imgui_impl_glfw.h" />
+    <ClInclude Include="Src\Externals\imgui\imgui_impl_opengl3.h" />
+    <ClInclude Include="Src\Externals\imgui\imgui_internal.h" />
+    <ClInclude Include="Src\Externals\imgui\imstb_rectpack.h" />
+    <ClInclude Include="Src\Externals\imgui\imstb_textedit.h" />
+    <ClInclude Include="Src\Externals\imgui\imstb_truetype.h" />
     <ClInclude Include="Src\Externals\stb_image\stb_image.h" />
+    <ClInclude Include="Src\Renderer.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Src\Externals\glm\detail\func_common.inl" />
