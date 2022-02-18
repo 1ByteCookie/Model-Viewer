@@ -112,6 +112,7 @@ XCOPY $(SolutionDir)Dependencies\ASSIMP\lib\assimp-vc143-mt.dll $(OutDir) /y</Co
     <ClCompile Include="Src\Externals\imgui\imgui_tables.cpp" />
     <ClCompile Include="Src\Externals\imgui\imgui_widgets.cpp" />
     <ClCompile Include="Src\Externals\stb_image\stb_image.cpp" />
+    <ClCompile Include="Src\Framebuffer.cpp" />
     <ClCompile Include="Src\main.cxx" />
     <ClCompile Include="Src\Renderer.cpp" />
     <ClCompile Include="Src\Shader.cpp" />
@@ -416,6 +417,7 @@ XCOPY $(SolutionDir)Dependencies\ASSIMP\lib\assimp-vc143-mt.dll $(OutDir) /y</Co
     <ClInclude Include="Src\Externals\imgui\imstb_textedit.h" />
     <ClInclude Include="Src\Externals\imgui\imstb_truetype.h" />
     <ClInclude Include="Src\Externals\stb_image\stb_image.h" />
+    <ClInclude Include="Src\Framebuffer.hpp" />
     <ClInclude Include="Src\Renderer.hpp" />
     <ClInclude Include="Src\Shader.hpp" />
     <ClInclude Include="Src\Texture.hpp" />

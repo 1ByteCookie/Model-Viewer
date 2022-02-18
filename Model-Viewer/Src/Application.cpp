@@ -3,6 +3,7 @@
 #include "Renderer.hpp"
 #include "Shader.hpp"
 #include "Texture.hpp"
+#include "Framebuffer.hpp"
 
 Application Application::Instance;
 
@@ -48,17 +49,23 @@ int Application::OnStart()
 	Shader ShaderProgram("Res/Shaders/Vertex.glsl", "Res/Shaders/Pixel.glsl");
 	ShaderProgram.Uniform1i("TextureSampler", texture.Descriptor().Slot);
 
-	m_Gui->SetFrameBuffer((void*)texture.GetID());
+	Framebuffer RenderTarget(0, m_Width, m_Height);
+	m_Gui->SetFrameBuffer((void*)RenderTarget.GetColor()->GetID());
+
 	glClearColor(0.4f, 0.0f, 1.0f, 1.0f);
 	while (!glfwWindowShouldClose(m_Window))
 	{
-		Renderer::Instance.Clear(GL_COLOR_BUFFER_BIT);
 		glfwPollEvents();
+
+		RenderTarget.Bind();
+		
+		Renderer::Instance.Clear(GL_COLOR_BUFFER_BIT);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+		
+		RenderTarget.Unbind();
 
 		m_Gui->NewFrame();
 		m_Gui->RenderUI();
-
-		//(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 
 		Renderer::Instance.EndFrame(m_Window);
 	}
