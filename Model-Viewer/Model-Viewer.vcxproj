@@ -115,6 +115,7 @@ XCOPY $(SolutionDir)Dependencies\ASSIMP\lib\assimp-vc143-mt.dll $(OutDir) /y</Co
     <ClCompile Include="Src\main.cxx" />
     <ClCompile Include="Src\Renderer.cpp" />
     <ClCompile Include="Src\Shader.cpp" />
+    <ClCompile Include="Src\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\AppGui.hpp" />
@@ -417,6 +418,7 @@ XCOPY $(SolutionDir)Dependencies\ASSIMP\lib\assimp-vc143-mt.dll $(OutDir) /y</Co
     <ClInclude Include="Src\Externals\stb_image\stb_image.h" />
     <ClInclude Include="Src\Renderer.hpp" />
     <ClInclude Include="Src\Shader.hpp" />
+    <ClInclude Include="Src\Texture.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Res\Shaders\Pixel.glsl" />

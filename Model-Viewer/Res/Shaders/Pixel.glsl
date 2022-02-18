@@ -1,7 +1,11 @@
 #version 460 core
 out vec4 Output;
 
+in vec2 UV;
+
+uniform sampler2D TextureSampler;
+
 void main()
 {
-	Output = vec4(0.0f, 1.0f, 1.0f, 1.0f);
+	Output = texture(TextureSampler, UV);
 }

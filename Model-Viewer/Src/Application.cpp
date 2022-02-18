@@ -1,8 +1,8 @@
 #include "Application.hpp"
 #include <iostream>
 #include "Renderer.hpp"
-#include "AppGui.hpp"
 #include "Shader.hpp"
+#include "Texture.hpp"
 
 Application Application::Instance;
 
@@ -11,10 +11,10 @@ int Application::OnStart()
 	GLuint VAO, VBO, IBO; {
 
 		float VertexData[] = {
-			-0.5f, -0.5f,
-			-0.5f,  0.5f,
-			 0.5f,  0.5f,
-			 0.5f, -0.5f
+			-0.5f, -0.5f,	0.0f, 0.0f,
+			-0.5f,  0.5f,	0.0f, 1.0f,
+			 0.5f,  0.5f,	1.0f, 1.0f,
+			 0.5f, -0.5f,	1.0f, 0.0f
 		};
 
 		unsigned int IndexData[] = {
@@ -33,23 +33,32 @@ int Application::OnStart()
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(IndexData), IndexData, GL_STATIC_DRAW);
 
-		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (const void*)0);
+		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (const void*)0);
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (const void*)(2 * sizeof(float)));
 		glEnableVertexAttribArray(0);
+		glEnableVertexAttribArray(1);
 	}
 
+	TEXTURE_DESC Descriptor{};
+	Descriptor.Path			= "Res/Textures/Cyberpunk2077.png";
+	Descriptor.FlipImage	= false;
+	Descriptor.Slot			= 8;
+	Texture texture(Descriptor);
+	
 	Shader ShaderProgram("Res/Shaders/Vertex.glsl", "Res/Shaders/Pixel.glsl");
-	ShaderProgram.Bind();
+	ShaderProgram.Uniform1i("TextureSampler", texture.Descriptor().Slot);
 
+	m_Gui->SetFrameBuffer((void*)texture.GetID());
 	glClearColor(0.4f, 0.0f, 1.0f, 1.0f);
 	while (!glfwWindowShouldClose(m_Window))
 	{
 		Renderer::Instance.Clear(GL_COLOR_BUFFER_BIT);
 		glfwPollEvents();
 
-		AppGui::NewFrame();
-		AppGui::RenderUI();
+		m_Gui->NewFrame();
+		m_Gui->RenderUI();
 
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+		//(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 
 		Renderer::Instance.EndFrame(m_Window);
 	}
@@ -87,13 +96,11 @@ Application::Application()
 	std::cout << glGetString(GL_VERSION) << std::endl
 		<< glGetString(GL_RENDERER) << std::endl;
 
-	AppGui::Initialize(m_Window);
+	m_Gui = std::make_unique<AppGui>(m_Window);
 }
 
 Application::~Application()
 {
-	AppGui::CleanUp();
-
 	glfwDestroyWindow(m_Window);
 	glfwTerminate();
 }

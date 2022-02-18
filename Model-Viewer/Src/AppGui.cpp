@@ -4,63 +4,66 @@
 #include <imgui/imgui_impl_glfw.h>
 #include <imgui/imgui_impl_opengl3.h>
 
-namespace AppGui
+AppGui::AppGui(GLFWwindow* Window)
 {
-	void Initialize(GLFWwindow* Window)
-	{
-		IMGUI_CHECKVERSION();
-		ImGui::CreateContext();
-		ImGuiIO& io = ImGui::GetIO(); (void)io;
-		io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
-		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO(); (void)io;
+	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
-		ImGui::StyleColorsDark();
+	ImGui::StyleColorsDark();
 
-		ImGui_ImplGlfw_InitForOpenGL(Window, true);
-		ImGui_ImplOpenGL3_Init("#version 460 core");
-	}
+	ImGui_ImplGlfw_InitForOpenGL(Window, true);
+	ImGui_ImplOpenGL3_Init("#version 460 core");
+}
 
-	void CleanUp()
-	{
-		ImGui_ImplOpenGL3_Shutdown();
-		ImGui_ImplGlfw_Shutdown();
-		ImGui::DestroyContext();
-	}
-	
-	void NewFrame()
-	{
-		ImGui_ImplOpenGL3_NewFrame();
-		ImGui_ImplGlfw_NewFrame();
-		ImGui::NewFrame();
+AppGui::~AppGui()
+{
+	ImGui_ImplOpenGL3_Shutdown();
+	ImGui_ImplGlfw_Shutdown();
+	ImGui::DestroyContext();
+}
 
-		ImGui::DockSpaceOverViewport();
-	}
-	
-	void RenderUI()
-	{
-		Viewport();
-		Properties();
-		Camera();
+void AppGui::SetFrameBuffer(void* Color)
+{
+	m_FrameBufferColor = Color;
+}
 
-		ImGui::Render();
-		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-	}
-	
-	void Viewport()
-	{
-		ImGui::Begin("Viewport");
-		ImGui::End();
-	}
+void AppGui::NewFrame()
+{
+	ImGui_ImplOpenGL3_NewFrame();
+	ImGui_ImplGlfw_NewFrame();
+	ImGui::NewFrame();
 
-	void Properties()
-	{
-		ImGui::Begin("Properties");
-		ImGui::End();
-	}
-	
-	void Camera()
-	{
-		ImGui::Begin("Camera");
-		ImGui::End();
-	}
+	ImGui::DockSpaceOverViewport();
+}
+
+void AppGui::RenderUI()
+{
+	Viewport();
+	Properties();
+	Camera();
+
+	ImGui::Render();
+	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+}
+
+void AppGui::Viewport()
+{
+	ImGui::Begin("Viewport");
+	ImGui::Image(m_FrameBufferColor, ImVec2(1280, 720));
+	ImGui::End();
+}
+
+void AppGui::Properties()
+{
+	ImGui::Begin("Properties");
+	ImGui::End();
+}
+
+void AppGui::Camera()
+{
+	ImGui::Begin("Camera");
+	ImGui::End();
 }
