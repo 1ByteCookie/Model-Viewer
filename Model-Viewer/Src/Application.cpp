@@ -2,15 +2,44 @@
 #include <iostream>
 #include "Renderer.hpp"
 #include "AppGui.hpp"
-
-#include <imgui/imgui.h>
-#include <imgui/imgui_impl_glfw.h>
-#include <imgui/imgui_impl_opengl3.h>
+#include "Shader.hpp"
 
 Application Application::Instance;
 
 int Application::OnStart()
 {
+	GLuint VAO, VBO, IBO; {
+
+		float VertexData[] = {
+			-0.5f, -0.5f,
+			-0.5f,  0.5f,
+			 0.5f,  0.5f,
+			 0.5f, -0.5f
+		};
+
+		unsigned int IndexData[] = {
+			0, 1, 2,
+			2, 3, 0
+		};
+
+		glGenVertexArrays(1, &VAO);
+		glBindVertexArray(VAO);
+
+		glGenBuffers(1, &VBO);
+		glBindBuffer(GL_ARRAY_BUFFER, VBO);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(VertexData), VertexData, GL_STATIC_DRAW);
+
+		glGenBuffers(1, &IBO);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(IndexData), IndexData, GL_STATIC_DRAW);
+
+		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (const void*)0);
+		glEnableVertexAttribArray(0);
+	}
+
+	Shader ShaderProgram("Res/Shaders/Vertex.glsl", "Res/Shaders/Pixel.glsl");
+	ShaderProgram.Bind();
+
 	glClearColor(0.4f, 0.0f, 1.0f, 1.0f);
 	while (!glfwWindowShouldClose(m_Window))
 	{
@@ -19,6 +48,8 @@ int Application::OnStart()
 
 		AppGui::NewFrame();
 		AppGui::RenderUI();
+
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 
 		Renderer::Instance.EndFrame(m_Window);
 	}

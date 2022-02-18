@@ -57,6 +57,9 @@
     <ClCompile Include="Src\AppGui.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Src\Shader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Externals\stb_image\stb_image.h">
@@ -956,6 +959,9 @@
     <ClInclude Include="Src\Externals\imgui\imgui_impl_opengl3_loader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Src\Shader.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Src\Externals\glm\detail\func_common.inl">
@@ -1375,5 +1381,7 @@
     <None Include="Src\Externals\glm\gtx\wrap.inl">
       <Filter>Header Files</Filter>
     </None>
+    <None Include="Res\Shaders\Vertex.glsl" />
+    <None Include="Res\Shaders\Pixel.glsl" />
   </ItemGroup>
 </Project>
