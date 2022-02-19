@@ -66,6 +66,9 @@
     <ClCompile Include="Src\Framebuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Src\Camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Externals\stb_image\stb_image.h">
@@ -972,6 +975,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Src\Framebuffer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Camera.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

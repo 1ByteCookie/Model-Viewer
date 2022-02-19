@@ -4,18 +4,26 @@
 #include "Shader.hpp"
 #include "Texture.hpp"
 #include "Framebuffer.hpp"
+#include "Camera.hpp"
+
+#include <glm/gtc/matrix_transform.hpp>
 
 Application Application::Instance;
 
 int Application::OnStart()
 {
+	Framebuffer RenderTarget(0, m_Width, m_Height);
+	m_Gui->SetFrameBuffer((void*)RenderTarget.GetColor()->GetID());
+
+	glm::mat4 Projection = glm::perspective(glm::radians(45.0f), (float)m_Width/m_Height, 0.01f, 100.0f);
+
 	GLuint VAO, VBO, IBO; {
 
 		float VertexData[] = {
-			-0.5f, -0.5f,	0.0f, 0.0f,
-			-0.5f,  0.5f,	0.0f, 1.0f,
-			 0.5f,  0.5f,	1.0f, 1.0f,
-			 0.5f, -0.5f,	1.0f, 0.0f
+			-1.0f, -1.0f,	0.0f, 0.0f,
+			-1.0f,  1.0f,	0.0f, 1.0f,
+			 1.0f,  1.0f,	1.0f, 1.0f,
+			 1.0f, -1.0f,	1.0f, 0.0f
 		};
 
 		unsigned int IndexData[] = {
@@ -42,20 +50,24 @@ int Application::OnStart()
 
 	TEXTURE_DESC Descriptor{};
 	Descriptor.Path			= "Res/Textures/Cyberpunk2077.png";
-	Descriptor.FlipImage	= false;
+	Descriptor.FlipImage	= true;
 	Descriptor.Slot			= 8;
 	Texture texture(Descriptor);
 	
 	Shader ShaderProgram("Res/Shaders/Vertex.glsl", "Res/Shaders/Pixel.glsl");
 	ShaderProgram.Uniform1i("TextureSampler", texture.Descriptor().Slot);
+	ShaderProgram.UniformMatrix4fv("Projection", Projection);
+	ShaderProgram.UniformMatrix4fv("Model", glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f)));
 
-	Framebuffer RenderTarget(0, m_Width, m_Height);
-	m_Gui->SetFrameBuffer((void*)RenderTarget.GetColor()->GetID());
+	Camera MainCamera(glm::vec3(2.5f, 3.0f, 2.f), glm::vec3(0.0f, 0.0f, 0.0f));
 
 	glClearColor(0.4f, 0.0f, 1.0f, 1.0f);
 	while (!glfwWindowShouldClose(m_Window))
 	{
 		glfwPollEvents();
+
+		MainCamera.LookAt();
+		ShaderProgram.UniformMatrix4fv("View", MainCamera.GetMatrix());
 
 		RenderTarget.Bind();
 		

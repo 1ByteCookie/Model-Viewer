@@ -102,6 +102,7 @@ XCOPY $(SolutionDir)Dependencies\ASSIMP\lib\assimp-vc143-mt.dll $(OutDir) /y</Co
   <ItemGroup>
     <ClCompile Include="Src\AppGui.cpp" />
     <ClCompile Include="Src\Application.cpp" />
+    <ClCompile Include="Src\Camera.cpp" />
     <ClCompile Include="Src\Externals\glad\glad.c" />
     <ClCompile Include="Src\Externals\glm\detail\glm.cpp" />
     <ClCompile Include="Src\Externals\imgui\imgui.cpp" />
@@ -121,6 +122,7 @@ XCOPY $(SolutionDir)Dependencies\ASSIMP\lib\assimp-vc143-mt.dll $(OutDir) /y</Co
   <ItemGroup>
     <ClInclude Include="Src\AppGui.hpp" />
     <ClInclude Include="Src\Application.hpp" />
+    <ClInclude Include="Src\Camera.hpp" />
     <ClInclude Include="Src\Externals\glm\common.hpp" />
     <ClInclude Include="Src\Externals\glm\detail\compute_common.hpp" />
     <ClInclude Include="Src\Externals\glm\detail\compute_vector_relational.hpp" />
