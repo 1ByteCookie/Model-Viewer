@@ -16,64 +16,27 @@ int Application::OnStart()
 	m_Gui->SetFrameBuffer((void*)RenderTarget.GetColor()->GetID());
 
 	glm::mat4 Projection = glm::perspective(glm::radians(45.0f), (float)m_Width/m_Height, 0.01f, 100.0f);
+	Camera MainCamera(glm::vec3(10.0f, 10.0f, 20.0f), glm::vec3(0.0f, 0.0f, -5.0f));
 
-	GLuint VAO, VBO, IBO; {
-
-		float VertexData[] = {
-			-1.0f, -1.0f,	0.0f, 0.0f,
-			-1.0f,  1.0f,	0.0f, 1.0f,
-			 1.0f,  1.0f,	1.0f, 1.0f,
-			 1.0f, -1.0f,	1.0f, 0.0f
-		};
-
-		unsigned int IndexData[] = {
-			0, 1, 2,
-			2, 3, 0
-		};
-
-		glGenVertexArrays(1, &VAO);
-		glBindVertexArray(VAO);
-
-		glGenBuffers(1, &VBO);
-		glBindBuffer(GL_ARRAY_BUFFER, VBO);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(VertexData), VertexData, GL_STATIC_DRAW);
-
-		glGenBuffers(1, &IBO);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(IndexData), IndexData, GL_STATIC_DRAW);
-
-		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (const void*)0);
-		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (const void*)(2 * sizeof(float)));
-		glEnableVertexAttribArray(0);
-		glEnableVertexAttribArray(1);
-	}
-
-	TEXTURE_DESC Descriptor{};
-	Descriptor.Path			= "Res/Textures/Cyberpunk2077.png";
-	Descriptor.FlipImage	= true;
-	Descriptor.Slot			= 8;
-	Texture texture(Descriptor);
-	
-	Shader ShaderProgram("Res/Shaders/Vertex.glsl", "Res/Shaders/Pixel.glsl");
-	ShaderProgram.Uniform1i("TextureSampler", texture.Descriptor().Slot);
-	ShaderProgram.UniformMatrix4fv("Projection", Projection);
-	ShaderProgram.UniformMatrix4fv("Model", glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f)));
-
-	Camera MainCamera(glm::vec3(2.5f, 3.0f, 2.f), glm::vec3(0.0f, 0.0f, 0.0f));
+	Model Foo("Res/Models/Suzanne/Suzanne.obj");
+	Shader FooShader("Res/Shaders/Vertex.glsl", "Res/Shaders/Pixel.glsl");
+	FooShader.UniformMatrix4fv("Projection", Projection);
+	FooShader.UniformMatrix4fv("View", MainCamera.GetMatrix());
+	FooShader.UniformMatrix4fv("Model", glm::translate( glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -5.0f) ) );
 
 	glClearColor(0.4f, 0.0f, 1.0f, 1.0f);
+	glEnable(GL_DEPTH_TEST); glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	while (!glfwWindowShouldClose(m_Window))
 	{
 		glfwPollEvents();
 
 		MainCamera.LookAt();
-		ShaderProgram.UniformMatrix4fv("View", MainCamera.GetMatrix());
 
 		RenderTarget.Bind();
 		
-		Renderer::Instance.Clear(GL_COLOR_BUFFER_BIT);
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
-		
+		Renderer::Instance.Clear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		Renderer::Instance.Draw(Foo, FooShader);
+
 		RenderTarget.Unbind();
 
 		m_Gui->NewFrame();

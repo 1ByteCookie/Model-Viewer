@@ -3,6 +3,9 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#include "Model.hpp"
+#include "Shader.hpp"
+
 class Renderer
 {
 public:
@@ -10,6 +13,8 @@ public:
 
 	void Clear(unsigned int Mask);
 	void EndFrame(GLFWwindow* Window);
+
+	void Draw(Model& model, Shader& shader);
 
 	inline float GetDeltaTime() { return m_DeltaTime; }
 
