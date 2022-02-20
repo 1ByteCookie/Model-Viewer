@@ -1,7 +1,12 @@
 #include "Model.hpp"
+#include <glm/gtc/matrix_transform.hpp>
 
 Model::Model(const std::string& Path)
 {
+	m_Position	= glm::vec3(0.0f);
+	m_Rotation	= glm::vec3(0.0f);
+	m_Transform	= glm::translate(glm::mat4(1.0f), m_Position);
+
 	Load(Path);
 }
 

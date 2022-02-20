@@ -16,21 +16,26 @@ int Application::OnStart()
 	m_Gui->SetFrameBuffer((void*)RenderTarget.GetColor()->GetID());
 
 	glm::mat4 Projection = glm::perspective(glm::radians(45.0f), (float)m_Width/m_Height, 0.01f, 100.0f);
-	Camera MainCamera(glm::vec3(10.0f, 10.0f, 20.0f), glm::vec3(0.0f, 0.0f, -5.0f));
+	Camera MainCamera(glm::vec3(3.0f, 2.5f, 5.0f), glm::vec3(0.0f));
+
+	glm::vec3 DirectionalLight(-1.0f, 1.0f, 1.0f);
 
 	Model Foo("Res/Models/Suzanne/Suzanne.obj");
+	//Model Foo("Res/Models/TV/Television_01_2k.gltf");
 	Shader FooShader("Res/Shaders/Vertex.glsl", "Res/Shaders/Pixel.glsl");
 	FooShader.UniformMatrix4fv("Projection", Projection);
-	FooShader.UniformMatrix4fv("View", MainCamera.GetMatrix());
-	FooShader.UniformMatrix4fv("Model", glm::translate( glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -5.0f) ) );
+	FooShader.UniformMatrix4fv("Model", Foo.Transform());
+	FooShader.Uniform3fv("DirectionalLight", DirectionalLight);
 
-	glClearColor(0.4f, 0.0f, 1.0f, 1.0f);
-	glEnable(GL_DEPTH_TEST); glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+	glEnable(GL_DEPTH_TEST);
 	while (!glfwWindowShouldClose(m_Window))
 	{
 		glfwPollEvents();
 
 		MainCamera.LookAt();
+		FooShader.UniformMatrix4fv("View", MainCamera.GetMatrix());
+		FooShader.Uniform3fv("CamPosition", MainCamera.GetPosition());
 
 		RenderTarget.Bind();
 		
