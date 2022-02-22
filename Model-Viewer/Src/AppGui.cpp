@@ -4,6 +4,8 @@
 #include <imgui/imgui_impl_glfw.h>
 #include <imgui/imgui_impl_opengl3.h>
 
+#include <glm/glm.hpp>
+
 AppGui::AppGui(GLFWwindow* Window)
 {
 	IMGUI_CHECKVERSION();
@@ -28,6 +30,13 @@ AppGui::~AppGui()
 void AppGui::SetFrameBuffer(void* Color)
 {
 	m_FrameBufferColor = Color;
+}
+
+void AppGui::SetAttributes(glm::vec3* CamPosition, glm::vec3* MeshColor, glm::vec3* DirectionalLight)
+{
+	m_CamPosition		= CamPosition;
+	m_MeshColor			= MeshColor;
+	m_DirectionalLight	= DirectionalLight;
 }
 
 void AppGui::NewFrame()
@@ -59,11 +68,14 @@ void AppGui::Viewport()
 void AppGui::Properties()
 {
 	ImGui::Begin("Properties");
+	ImGui::DragFloat3(" Mesh", &m_MeshColor->x, 0.01f, 0.0f, 1.0f);
+	ImGui::DragFloat3(" Light", &m_DirectionalLight->x, 0.01f, -1.0f, 1.0f);
 	ImGui::End();
 }
 
 void AppGui::Camera()
 {
 	ImGui::Begin("Camera");
+	ImGui::DragFloat3(" Position", &m_CamPosition->x, 0.05f, -16.0f, 16.0f);
 	ImGui::End();
 }

@@ -9,8 +9,8 @@ public:
 
 	void LookAt();
 
-	const glm::mat4& GetMatrix() const { return m_Matrix; }
-	const glm::vec3& GetPosition() const { return m_Position; }
+	const glm::mat4& GetMatrix() { return m_Matrix; }
+	glm::vec3& GetPosition() { return m_Position; }
 
 private:
 	glm::mat4	m_Matrix;

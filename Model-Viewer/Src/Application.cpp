@@ -18,6 +18,7 @@ int Application::OnStart()
 	glm::mat4 Projection = glm::perspective(glm::radians(45.0f), (float)m_Width/m_Height, 0.01f, 100.0f);
 	Camera MainCamera(glm::vec3(3.0f, 2.5f, 5.0f), glm::vec3(0.0f));
 
+	glm::vec3 MeshColor(1.0f);
 	glm::vec3 DirectionalLight(-1.0f, 1.0f, 1.0f);
 
 	Model Foo("Res/Models/Suzanne/Suzanne.obj");
@@ -25,7 +26,8 @@ int Application::OnStart()
 	Shader FooShader("Res/Shaders/Vertex.glsl", "Res/Shaders/Pixel.glsl");
 	FooShader.UniformMatrix4fv("Projection", Projection);
 	FooShader.UniformMatrix4fv("Model", Foo.Transform());
-	FooShader.Uniform3fv("DirectionalLight", DirectionalLight);
+
+	m_Gui->SetAttributes(&MainCamera.GetPosition(), &MeshColor, &DirectionalLight);
 
 	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 	glEnable(GL_DEPTH_TEST);
@@ -36,6 +38,8 @@ int Application::OnStart()
 		MainCamera.LookAt();
 		FooShader.UniformMatrix4fv("View", MainCamera.GetMatrix());
 		FooShader.Uniform3fv("CamPosition", MainCamera.GetPosition());
+		FooShader.Uniform3fv("DirectionalLight", DirectionalLight);
+		FooShader.Uniform3fv("MeshColor", MeshColor);
 
 		RenderTarget.Bind();
 		

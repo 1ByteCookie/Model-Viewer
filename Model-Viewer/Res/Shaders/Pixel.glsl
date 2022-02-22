@@ -5,11 +5,12 @@ in vec3 Normals;
 in vec3 FragmentPositions;
 
 uniform vec3 CamPosition;
+uniform vec3 MeshColor;
 uniform vec3 DirectionalLight;
 
 void main()
 {
-	vec3 Color				= vec3(1.0f);
+	vec3 Color				= MeshColor;
 	vec3 LightDirection		= normalize(DirectionalLight);
 	vec3 SurfaceNormals		= normalize(Normals);
 	vec3 Reflection			= reflect(LightDirection, SurfaceNormals);
