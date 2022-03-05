@@ -71,7 +71,9 @@
     <PostBuildEvent>
       <Command>XCOPY $(SolutionDir)Dependencies\GLFW\lib\glfw3.dll $(OutDir) /y
 
-XCOPY $(SolutionDir)Dependencies\ASSIMP\lib\assimp-vc143-mt.dll $(OutDir) /y</Command>
+XCOPY $(SolutionDir)Dependencies\ASSIMP\lib\assimp-vc143-mt.dll $(OutDir) /y
+
+XCOPY $(ProjectDir)imgui.ini $(OutDir) /y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -96,7 +98,9 @@ XCOPY $(SolutionDir)Dependencies\ASSIMP\lib\assimp-vc143-mt.dll $(OutDir) /y</Co
     <PostBuildEvent>
       <Command>XCOPY $(SolutionDir)Dependencies\GLFW\lib\glfw3.dll $(OutDir) /y
 
-XCOPY $(SolutionDir)Dependencies\ASSIMP\lib\assimp-vc143-mt.dll $(OutDir) /y</Command>
+XCOPY $(SolutionDir)Dependencies\ASSIMP\lib\assimp-vc143-mt.dll $(OutDir) /y
+
+XCOPY $(ProjectDir)imgui.ini $(OutDir) /y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

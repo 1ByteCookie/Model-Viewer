@@ -9,6 +9,7 @@
 class Renderer
 {
 public:
+	// singleton design, used to access member methods. e.g Renderer::Instance.Clear();
 	static Renderer Instance;
 
 	void Clear(unsigned int Mask);
