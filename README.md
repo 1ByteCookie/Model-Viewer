@@ -2,7 +2,7 @@
 
 An OpenGL exercise with ImGui, to view a model, specify the filepath inside "int Application::OnStart()"
 
-might have to learn win32 to access Window's file system
+might have to learn win32 to access Windows' file system
 
 
 ## Screenshot
