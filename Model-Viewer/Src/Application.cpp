@@ -31,6 +31,7 @@ int Application::OnStart()
 
 	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_PROGRAM_POINT_SIZE);
 	while (!glfwWindowShouldClose(m_Window))
 	{
 		glfwPollEvents();

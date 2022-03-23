@@ -28,6 +28,6 @@ void Renderer::Draw(Model& model, Shader& shader)
 	for (unsigned int i = 0; i < model.GetMeshes().size(); i++)
 	{
 		model.GetMeshes()[i].Bind();
-		glDrawElements(GL_TRIANGLES, model.GetMeshes()[i].GetIndexCount(), GL_UNSIGNED_INT, nullptr);
+		glDrawElements(GL_POINTS, model.GetMeshes()[i].GetIndexCount(), GL_UNSIGNED_INT, nullptr);
 	}
 }

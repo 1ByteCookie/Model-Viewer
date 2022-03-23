@@ -7,13 +7,20 @@ uniform mat4 Model;
 uniform mat4 View;
 uniform mat4 Projection;
 
-out vec3 Normals;
-out vec3 FragmentPositions;
+out PS_INPUT
+{
+
+	vec3 Normals;
+	vec3 FragmentPositions;
+
+} Output;
 
 void main()
 {
-	Normals = mat3(Model) * _Normals_;
-	FragmentPositions = vec3( Model * vec4(_VertexPosition_, 1.0f) );
+	Output.Normals				= mat3(Model) * _Normals_;
+	Output.FragmentPositions	= vec3( Model * vec4(_VertexPosition_, 1.0f) );
 
-	gl_Position = Projection * View * Model * vec4(_VertexPosition_, 1.0f);
+	gl_Position					= Projection * View * Model * vec4(_VertexPosition_, 1.0f);
+
+	gl_PointSize				= gl_Position.z;
 }
